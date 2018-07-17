@@ -1,4 +1,4 @@
-require('dotenv').config({path: `${__dirname}/.env`});
+require('dotenv').config();
 let connectionString = process.env.CONNECTION_STRING;
 
 module.exports = {
