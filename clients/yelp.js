@@ -10,6 +10,6 @@ const searchRequest = {
     country: 'US'
   }
   
-const client = yelp.client(process.env.API_KEY);
+const client = yelp.client(process.env.YELP_API_KEY);
 
 module.exports = client;
