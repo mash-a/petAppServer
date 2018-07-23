@@ -2,10 +2,14 @@
 exports.up = (knex, Promise) => {
   return knex.schema.createTable('users', table => {
     table.increments();
-    table.string()
+    table.string('email').unique().notNullable();
+    table.string('profilePic').notNullable();
+    table.string('displayName').notNullable();
+    table.string('accessToken').notNullable();
+
   })
 };
 
 exports.down = (knex, Promise) => {
-  
+  return knex.schema.dropTable('users')
 };
