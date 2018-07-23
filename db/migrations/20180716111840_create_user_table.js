@@ -6,7 +6,7 @@ exports.up = (knex, Promise) => {
     table.string('profilePic').notNullable();
     table.string('displayName').notNullable();
     table.string('accessToken').notNullable();
-
+    table.string('userID').unique().notNullable();
   })
 };
 
