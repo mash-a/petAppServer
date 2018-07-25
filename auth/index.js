@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 const Auth0Strategy = require('passport-auth0').Strategy;
 const passport = require('passport');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const knex = require('../db/knex');
 
 const env = {
     AUTH0_DOMAIN: process.env.AUTH_DOMAIN,
     AUTH0_CLIENT_ID: process.env.AUTH_CLIENT_ID,
     AUTH0_CLIENT_SECRET: process.env.AUTH_CLIENT_SECRET,
-    AUTH0_CALLBACK_URL: 'http://localhost:3004/callback',
+    AUTH0_CALLBACK_URL: 'http://localhost:3004/auth/callback',
   }
 
 const strategy = new Auth0Strategy({
@@ -17,8 +18,32 @@ const strategy = new Auth0Strategy({
     clientSecret: env.AUTH0_CLIENT_SECRET,
     callbackURL: env.AUTH0_CALLBACK_URL,
 }, (accessToken, refreshToken, extraParams, profile, done) => {
-    return done(null, profile);
-    }
+    console.log(profile)
+        const userAuth = {
+            iD: profile.id
+        };
+       return knex('users')
+            .where('userID', userAuth.iD)
+            .first()
+        .then(user => {
+            if (user) {
+            //update user in db 
+            return db('users')
+                .where('userID', userAuth.iD)
+                .update(userAuth, '*');
+      
+            } else {
+            //insert user into db. knex syntax?
+            return db('users')
+            .insert(userAuth, '*');
+            }
+        })
+        .then(user => {
+            callback(null, user[0]);
+        }).catch(error => {
+            callback(error);
+        });
+    }   
 );
 
 //done is a verify callback - the purpose of a verify callback is to find the user that possesses a set of credentials.
@@ -32,6 +57,8 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
+
+//router.get('/auth', passport.authenticate('auth0', {scope: ['openid', 'profile', 'email'], authType: 'rerequest'}));
 
 //session login 
 router.get(
@@ -56,15 +83,30 @@ router.get(
   });
  
   //final stage of authentication and redirect to /user
-  router.get(
-    '/api/petApp',
-    passport.authenticate('auth0', {
-      failureRedirect: '/'
-    }),
-    (req, res) => {
-      res.redirect(req.session.returnTo || '/user');
-    }
-  );
+  router.get('/auth/callback',(req, res, next) => {
+    passport.authenticate('auth0', (err, user) => {
+        if(err) {
+            return next(err);
+        } else {
+            const payload = {
+                id: user.id
+            };
+            jwt.sign(payload, process.env.TOKEN_SECRET, {
+                expiresIn: '1d'
+            }, (err, token) => {
+                if(err){
+                    next(err)
+                } else {
+                    console.log(token)
+                    res.cookie('token', token);
+                    res.json({message:'true'})
+                    //res.redirect('/login.html')
+                }
+            });
+        }
+      })(req, res, next);
+  });
+   
  
   router.get('/failure', function(req, res) {
    var error = req.flash("error");
@@ -75,6 +117,8 @@ router.get(
      error_description: error_description[0],
    });
  });
+
+ 
  
 
 module.exports = router;
