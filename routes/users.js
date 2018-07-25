@@ -16,4 +16,13 @@ router.get('/', ensureLoggedIn, function(req, res, next) {
   });
 });
 
+router.post('/', function(req, res, next) {
+  const {
+   profile,
+   accessToken
+  } = req.body;
+  
+  console.log(accessToken, profile);
+})
+
 module.exports = router;

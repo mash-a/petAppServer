@@ -92,7 +92,6 @@ app.get('/api/petApp/public', function(req, res) {
 });
 
 app.get('/api/petApp/private', checkJwt, function(req, res) {
-  console.log(req.id);
   res.json({
     message: `${req.user.azp}`
   });
