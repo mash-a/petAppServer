@@ -5,14 +5,15 @@ exports.up = function(knex, Promise) {
         table.integer('user_id').references('id').inTable('users').index().onDelete('cascade');
         table.string('name');
         table.string('medication');
-        table.string('special needs');
-        table.string('hiding spots');
-        table.integer('DOB');
+        table.string('special_needs');
+        table.string('hiding_spots');
+        table.integer('birthday');
         table.string('temperament');
         table.string('allergies');
-        table.string('loud noises');
+        table.string('loud_noises');
         table.boolean('treats');
-        table.string('feeding')
+        table.string('feeding');
+        table.string('img_url');
         table.timestamps(true, true);
     })
   };
