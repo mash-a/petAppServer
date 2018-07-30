@@ -6,15 +6,28 @@ const knex = require('../db/knex');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  knex('users').then(users => res.json({users: users}))
+  knex('users')
+  .then(users => res.json({users: users}))
 });
 
 // Get the user profile
 router.get('/:id', function(req, res, next) {
-  console.log(req.params)
-  knex('users').where('id', req.params.id).then(user => res.json({user: user}))
+ // console.log(req.params)
+  knex('users')
+  .where('id', req.params.id)
+  .first()
+  .then(user => {
+    knex('dogs')
+    .orderBy('id')
+    .where('user_id', req.params.id)
+    .then(dogs => {
+      res.json({
+        dogs
+      })
+    })
+  })
 });
-
+// res.json({user: user})
 //add a user
 router.post('/', function(req, res, next) {
   //console.log(req.body)
@@ -37,15 +50,12 @@ router.post('/', function(req, res, next) {
 
 //edit user 
 router.patch('/:id', (req, res, next) => {
-  // const {
-  //   profile,
-  //   accessToken
-  //  } = req.body;
+  const id = req.params.id
   knex('users')
   .update(req.body)
   .where('id', req.params.id)
   .then(() => {
-    res.redirect('/users');
+    res.redirect(`/users/${id}`);
   })
   .catch(err => {
     console.error(err)
@@ -63,7 +73,7 @@ router.get('/:id', (req, res, next) => {
     .orderBy('id')
     .where('user_id', req.params.id)
     .then(dogs => {
-      res.render('user', {
+      res.json('user', {
         user,
         dogs
       })
@@ -110,10 +120,10 @@ router.post('/:id', (req, res, next) => {
     user_id: user_id  
   })
   .then(() => {
-    res.redirect(`/users/${id}`)
+    res.redirect(`/users/${user_id}`)
   })
   .catch(err => {
-    next(err);
+    console.error(err);
   })
 })
 
@@ -143,5 +153,13 @@ router.post('/:id', (req, res, next) => {
     next(err);
   })
 })
+
+//delete dog
+
+//delete cat or other pet
+
+//edit dog
+
+//edit cat or other pet
 
 module.exports = router;

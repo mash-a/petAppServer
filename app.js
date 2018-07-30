@@ -58,13 +58,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.get('/api/petApp', (req, res, next) => {
-  res.json({ randomURL })
-})
+// app.get(randomUrl, (req, res, next) => {
+//   res.json({ randomURL })
+// })
 
 //routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/petApp', indexRouter);
+app.use('/users',  usersRouter);
 
 yelpClient.reviews(bkbark)
   .then(response => {
