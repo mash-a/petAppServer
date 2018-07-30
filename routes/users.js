@@ -31,7 +31,24 @@ router.post('/', function(req, res, next) {
     res.redirect('/users'); 
   })
   .catch(err => {
-    next(err);
+    console.error(err);
+  })
+})
+
+//edit user 
+router.patch('/:id', (req, res, next) => {
+  // const {
+  //   profile,
+  //   accessToken
+  //  } = req.body;
+  knex('users')
+  .update(req.body)
+  .where('id', req.params.id)
+  .then(() => {
+    res.redirect('/users');
+  })
+  .catch(err => {
+    console.error(err)
   })
 })
 
