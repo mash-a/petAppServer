@@ -19,7 +19,7 @@ const redirect_uri = 'http://localhost:3004/callback';
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-let randomURL = 'http://api.reviewsmaker.com/yelp/?url=https://www.yelp.com/biz/brooklyn-bark-brooklyn-3?osq=chicha&api_key=4b3d3d92-27f4-4eaa-bb8b-281cb8aa3860&rating=5'
+
 
 const app = express();
 
@@ -64,7 +64,7 @@ app.use(cookieParser());
 
 //routes
 app.use('/api/petApp', indexRouter);
-app.use('/users',  usersRouter);
+app.use('/api/petApp/users', checkJwt, usersRouter);
 
 yelpClient.reviews(bkbark)
   .then(response => {
@@ -73,17 +73,6 @@ yelpClient.reviews(bkbark)
   .catch(e => {
     console.log(e);
   });
-
-// app.get(yelpFiveStars, (req, res, next)
-//   .then(res => {
-//     console.log(res.json)
-//   })
-
-// app.post('/api/petApp/upload', jwtCheck, jwtAuthz(['batch:upload']), (req, res) => {
-//   let user = req.body;
-//   console.log(user)
-//   res.status(201).send(user);
-// })
 
 app.get('/api/petApp/public', function(req, res) {
   res.json({
