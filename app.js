@@ -13,7 +13,7 @@ const jwtAuthz = require('express-jwt-authz');
 require('dotenv').config();
 const yelpClient = require('./clients/yelp');
 const bkbark = process.env.BKBARK_ID; //the yelp ID for bkbark
-const redirect_uri = 'ttps://bkbarkapp.herokuapp.com/api/petApp/callback';
+const redirect_uri = 'https://bkbarkapp.herokuapp.com/api/petApp/callback';
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
