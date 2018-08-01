@@ -2,6 +2,7 @@
   "name": "dogwalkingserver",
   "version": "0.0.0",
   "private": true,
+  "main": "app.js",
   "scripts": {
     "build-client": "cd ../dogwalkingclient && npm run build",
     "dev": "npm run serve-client & nodemon ../dogWalkingServer/bin/www",
