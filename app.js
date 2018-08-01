@@ -13,7 +13,7 @@ const jwtAuthz = require('express-jwt-authz');
 require('dotenv').config();
 const yelpClient = require('./clients/yelp');
 const bkbark = process.env.BKBARK_ID; //the yelp ID for bkbark
-const redirect_uri = 'http://localhost:3004/callback';
+const redirect_uri = 'ttps://bkbarkapp.herokuapp.com/api/petApp/callback';
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -35,7 +35,7 @@ const checkJwt = jwt({
     }
     return null;
   },
-  audience: 'http://localhost:3004/api/petApp',
+  audience: 'ttps://bkbarkapp.herokuapp.com/api/petApp',
   issuer: `https://${process.env.AUTH_DOMAIN}/`,
   algorithms: ['RS256']
 
