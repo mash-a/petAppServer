@@ -8,7 +8,7 @@
     "dev": "npm run serve-client & nodemon ../dogWalkingServer/bin/www",
     "postinstall": "cd ../dogwalkingclient && npm run",
     "serve-client": "cd ../dogwalkingclient && npm run start",
-    "start": "npm run build-client && node ../dogWalkingServer/bin/www",
+    "start": "node bin/www",
     "heroku-postbuild": "npm install --production"
   },
   "engines": {
