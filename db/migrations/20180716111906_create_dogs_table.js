@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       table.text('medication');
       table.text('special_needs');
       table.text('walk_requirements');
-      table.integer('birthday');
+      table.string('birthday');
       table.text('temperament');
       table.text('allergies');
       table.text('loud_noises');

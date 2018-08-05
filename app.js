@@ -55,7 +55,7 @@ app.use(cookieParser());
 
 //routes
 app.use('/api/petApp', indexRouter);
-app.use('/api/petApp/users', checkJwt, usersRouter);
+app.use('/api/petApp/users', usersRouter);
 
 yelpClient.reviews(bkbark)
   .then(response => {
