@@ -2,12 +2,9 @@
   "name": "dogwalkingserver",
   "version": "0.0.0",
   "private": true,
+  "main": "app.js",
   "scripts": {
-    "build-client": "cd ../dogwalkingclient && npm run build",
-    "dev": "npm run serve-client & nodemon ../dogWalkingServer/bin/www",
-    "postinstall": "cd ../dogwalkingclient && npm run",
-    "serve-client": "cd ../dogwalkingclient && npm run start",
-    "start": "npm run build-client && node ../dogWalkingServer/bin/www",
+    "start": "node bin/www",
     "heroku-postbuild": "npm install --production"
   },
   "engines": {
