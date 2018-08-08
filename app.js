@@ -14,7 +14,6 @@ require('dotenv').config();
 const yelpClient = require('./clients/yelp');
 const bkbark = process.env.BKBARK_ID; //the yelp ID for bkbark
 const redirect_uri = 'https://bkbarkapp.herokuapp.com/api/petApp/callback';
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -55,7 +54,7 @@ app.use(cookieParser());
 
 //routes
 app.use('/api/petApp', indexRouter);
-app.use('/api/petApp/users', checkJwt, usersRouter);
+app.use('/api/petApp/users', usersRouter);
 
 yelpClient.reviews(bkbark)
   .then(response => {
