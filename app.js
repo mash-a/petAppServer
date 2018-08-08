@@ -14,6 +14,8 @@ require('dotenv').config();
 const yelpClient = require('./clients/yelp');
 const bkbark = process.env.BKBARK_ID; //the yelp ID for bkbark
 const redirect_uri = 'http://localhost:3004/callback';
+const googleBkbarkId = process.env.GOOGLE_BKBARK_PLACE_ID;
+const googleKey = process.env.GOOGLE_API_KEY;
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -64,6 +66,10 @@ yelpClient.reviews(bkbark)
   .catch(e => {
     console.log(e);
   });
+
+  app.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${googleBkbarkId}=${googleKey}`, (req, res, next) => {
+    console.log('res')
+  })
 
 // app.get('/api/petApp/public', function(req, res) {
 //   res.json({
